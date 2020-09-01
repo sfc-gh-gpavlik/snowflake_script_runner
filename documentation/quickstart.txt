@@ -1,0 +1,24 @@
+Creating a script to run in this project is very simple. Just add rows to a table, one for each SQL statement to run. There's a column to label them so there can be as many scripts in the table as you want. There's a column to order them so they execute in order. There's a column to set whether the script should continue on error.
+
+Usage Notes:
+
+Snowflake stored procedures have some limitations about using session variables. To improve flexibility, this project supports replacement variables.
+
+The variables are actually the result of a SQL evaluation like this:
+
+select <expression> as VARIABLE
+
+For example, suppose you want to put the current role into a variable for later use. In the script table row, you add something that looks like this:
+
+@MY_VARIABLE=current_role()
+
+The way this works is, whatever is on the right side of the equals sign goes in the expression as cited above:
+
+select current_role() as VARIABLE
+
+It then gets stuffed into @MY_VARIABLE. It's a true replacement variable. Anywhere it sees that tag it replaces it verbatim. 
+
+You can then use it like this:
+
+row 1:   @MY_DB='TEST_CLONE_' || replace(current_date(),'-', '_')
+row 2:   create database @MY_DB clone TEST;
