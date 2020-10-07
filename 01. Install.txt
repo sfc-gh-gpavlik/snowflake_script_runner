@@ -62,7 +62,7 @@ insert into TEST.SCRIPT_TEST.SCRIPT_TABLE
 )
 values
     ('CLONE_TEST_DB', 10, '@DB_NAME=''TEST_CLONE_'' || replace(current_date(), ''-'', ''_'')', false),
-    ('CLONE_TEST_DB', 30, 'drop database @DB_NAME;', true),
+    ('CLONE_TEST_DB', 30, 'drop database if exists @DB_NAME;', true),
     ('CLONE_TEST_DB', 40, 'create database @DB_NAME clone TEST', false),
     ('CLONE_TEST_DB', 50, 'revoke all PRIVILEGES on database @DB_NAME from role PUBLIC;', false),
     ('CLONE_TEST_DB', 60, 'grant all privileges on database @DB_NAME to role SYSADMIN;', false),
